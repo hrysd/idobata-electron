@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>Idobata</title>
+    <style>
+      html, body { height: 100%; }
+      body {
+        background-color: rgb(82, 73, 70);
+      }
+      webview {
+        height: 100%;
+        width:  100%;
+      }
+    </style>
+  </head>
+  <body>
+    <webview id="idobata" src="https://idobata.io/" autosize='on'></webview>
+    <script>
+      var webview  = document.getElementById('idobata');
+      // Prevent to become TOFU on my laptop :)
+      var guestCSS = '*{font-family: "VL Gothic"}';
+
+      webview.addEventListener("did-stop-loading", function() {
+        webview.insertCSS(guestCSS);
+      });
+    </script>
+  </body>
+</html>

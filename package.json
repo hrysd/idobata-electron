@@ -1,0 +1,11 @@
+{
+  "name": "idobata-electron",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "idobata": "electron main.js"
+  },
+  "author": "Hiroshi Yoshida",
+  "license": "MIT"
+}
