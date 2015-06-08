@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "idobata": "electron main.js"
+    "idobata": "electron index.js"
   },
   "author": "Hiroshi Yoshida",
   "license": "MIT",
