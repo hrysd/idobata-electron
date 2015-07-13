@@ -22,6 +22,11 @@
       webview.addEventListener("did-stop-loading", function() {
         webview.insertCSS(guestCSS);
       });
+
+      webview.addEventListener("new-window", function(e) {
+        require('shell').openExternal(e.url);
+      });
+
     </script>
   </body>
 </html>
