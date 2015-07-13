@@ -3,7 +3,7 @@ var packageJSON   = require('./package.json'),
     defaultOption = {
       dir:           './',
       name:          packageJSON.name,
-      version:       '0.27.2',
+      version:       '0.29.2',
       arch:          'x64',
       'app-version': packageJSON.version,
     };
