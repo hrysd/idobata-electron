@@ -10,7 +10,7 @@
   "license": "MIT",
   "devDependencies": {
     "electron-packager": "^4.1.2",
-    "electron-prebuilt": "^0.27.2",
+    "electron-prebuilt": "^0.29.2",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-electron": "^1.0.0",
