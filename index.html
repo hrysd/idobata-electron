@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <webview id="idobata" src="https://idobata.io/" autosize='on'></webview>
+    <webview id="idobata" src="https://idobata.io/" autosize='on' preload='./preload.js'></webview>
     <script src="http://js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
     <script>
       var webview  = document.getElementById('idobata');
@@ -27,51 +27,6 @@
       webview.addEventListener("new-window", function(e) {
         require('shell').openExternal(e.url);
       });
-
-      var notification_code =  " (function(){ " +
-      "        var onMessageCreated = function(user, store, router) { " +
-      "          return function(data){ " +
-      "            var notify = false; " +
-      "            var mode =  " + "'all'" + ";" +
-      "            if (mode == 'all') { " +
-      "              notify = true; " +
-      "            } else if (mode == 'mention') { " +
-      "              if (data.message.mentions.indexOf(parseInt(user.get('id'))) >= 0) { " +
-      "                notify = true; " +
-      "              } " +
-      "            } " +
-      "            if (notify) { " +
-      "              store.find('message', data.message.id).then(function(message) { " +
-      "                var roomUrl = '/' + router.generate('room.index', message.get('room')); " +
-      "                var roomName = message.get('room.organization.name').toString() + ' / ' + message.get('room.name').toString(); " +
-      "                var payload = { " +
-      "                  sender: data.message.senderName, " +
-      "                  roomName: roomName, " +
-      "                  text: data.message.bodyPlain, " +
-      "                  iconUrl: data.message.senderIconUrl, " +
-      "                  url: roomUrl " +
-      "                }; " +
-      "                new Notification(JSON.stringify(payload)); " +
-      "              }); " +
-      "            }" +
-      "          } " +
-      "        }; " +
-      "        window.addEventListener('ready.idobata', function(e) { " +
-      "          var container = e.detail.container; " +
-      " " +
-      "          var pusher = container.lookup('pusher:main'); " +
-      "          var user   = container.lookup('service:session').get('user'); " +
-      "          var store  = container.lookup('store:main'); " +
-      "          var router = container.lookup('router:main'); " +
-      " " +
-      "          pusher.bind('message:created', onMessageCreated(user, store, router)); " +
-      "        }); " +
-      "      })(); ";
-
-      webview.addEventListener("dom-ready", function(){
-        webview.executeJavaScript(notification_code);
-      });
-      
     </script>
   </body>
 </html>
