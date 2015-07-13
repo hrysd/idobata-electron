@@ -7,7 +7,7 @@ require('crash-reporter').start();
 
 app.on('window-all-closed', function() {
   app.quit();
-})
+});
 
 app.on('ready', function() {
   let mainWindow = new BrowserWindow({width: 800, height: 600});
@@ -16,5 +16,5 @@ app.on('ready', function() {
 
   mainWindow.on('closed', function() {
     mainWindow = null;
-  })
-})
+  });
+});
