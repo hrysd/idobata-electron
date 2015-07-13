@@ -5,7 +5,7 @@
         var title = data.message.senderName;
         new Notification(title, {
           body: data.message.bodyPlain,
-        icon: data.message.senderIconUrl
+          icon: data.message.senderIconUrl
         })
       });
     }
