@@ -28,11 +28,11 @@
         require('shell').openExternal(e.url);
       });
 
-      var code = " (function(){ " +
+      var notification_code =  " (function(){ " +
       "        var onMessageCreated = function(user, store, router) { " +
       "          return function(data){ " +
       "            var notify = false; " +
-      "            var mode =  " + "all" +
+      "            var mode =  " + "'all'" + ";" +
       "            if (mode == 'all') { " +
       "              notify = true; " +
       "            } else if (mode == 'mention') { " +
@@ -53,12 +53,10 @@
       "                }; " +
       "                new Notification(JSON.stringify(payload)); " +
       "              }); " +
-      "            } " +
-      "          }; " +
+      "            }" +
+      "          } " +
       "        }; " +
-      " " +
       "        window.addEventListener('ready.idobata', function(e) { " +
-      " alert('ready.idobata') " +
       "          var container = e.detail.container; " +
       " " +
       "          var pusher = container.lookup('pusher:main'); " +
@@ -71,8 +69,7 @@
       "      })(); ";
 
       webview.addEventListener("dom-ready", function(){
-        alert("test")
-        webview.executeJavaScript(code);
+        webview.executeJavaScript(notification_code);
       });
       
     </script>
