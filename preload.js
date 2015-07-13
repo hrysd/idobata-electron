@@ -12,16 +12,11 @@
       }
       if (notify) {
         store.find('message', data.message.id).then(function(message) {
-          var roomUrl = '/' + router.generate('room.index', message.get('room'));
-          var roomName = message.get('room.organization.name').toString() + ' / ' + message.get('room.name').toString();
-          var payload = {
-            sender: data.message.senderName,
-            roomName: roomName,
-            text: data.message.bodyPlain,
-            iconUrl: data.message.senderIconUrl,
-            url: roomUrl
-          };
-          new Notification(JSON.stringify(payload));
+          var title = data.message.senderName;
+          new Notification(title, {
+            body: data.message.bodyPlain,
+            icon: data.message.senderIconUrl
+          })
         });
       }
     }
