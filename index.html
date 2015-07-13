@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <webview id="idobata" src="https://idobata.io/" autosize='on'></webview>
+    <webview id="idobata" src="https://idobata.io/" autosize='on' preload='./preload.js'></webview>
     <script>
       var webview  = document.getElementById('idobata');
       // Prevent to become TOFU on my laptop :)
@@ -26,7 +26,6 @@
       webview.addEventListener("new-window", function(e) {
         require('shell').openExternal(e.url);
       });
-
     </script>
   </body>
 </html>
