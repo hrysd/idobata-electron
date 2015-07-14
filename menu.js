@@ -2,10 +2,10 @@ var remote = require('remote');
 var Menu = remote.require('menu');
 var template = [
   {
-    label: 'Idobata Electron',
+    label: 'idobata-electron',
     submenu: [
       {
-        label: 'About Idobata Electron',
+        label: 'About idobata-electron',
         selector: 'orderFrontStandardAboutPanel:'
       },
       {
@@ -19,7 +19,7 @@ var template = [
         type: 'separator'
       },
       {
-        label: 'Hide Idobata Electron',
+        label: 'Hide idobata-electron',
         accelerator: 'Command+H',
         selector: 'hide:'
       },
