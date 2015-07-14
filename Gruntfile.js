@@ -19,8 +19,7 @@ module.exports = function(grunt) {
     electron: {
       osx:{
         options: merge({
-          // TODO
-          //icon:     './icons/idobata-electron.icns',
+          icon:     './icons/idobata.icns',
           out:      './dist/darwin',
           platform: 'darwin',
           prune:    true
