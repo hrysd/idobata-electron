@@ -17,12 +17,6 @@
     <webview id="idobata" src="https://idobata.io/" autosize='on' preload='./preload.js'></webview>
     <script>
       var webview  = document.getElementById('idobata');
-      // Prevent to become TOFU on my laptop :)
-      var guestCSS = '*{font-family: "VL Gothic"}';
-
-      webview.addEventListener("did-stop-loading", function() {
-        webview.insertCSS(guestCSS);
-      });
 
       webview.addEventListener("new-window", function(e) {
         require('shell').openExternal(e.url);
