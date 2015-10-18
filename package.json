@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "",
   "main": "index.js",
+  "repository": "hrysd/idobata-electron",
   "scripts": {
     "idobata": "electron index.js"
   },
