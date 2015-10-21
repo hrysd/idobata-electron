@@ -10,6 +10,7 @@ const packager      = require('electron-packager'),
         version:       '0.29.2',
         arch:          'x64',
         'app-version': packageJSON.version,
+        overwrite:     true
       },
       targets = {
         osx: {
@@ -19,9 +20,9 @@ const packager      = require('electron-packager'),
           prune:    true
         },
         linux: {
-          out:           './dist/linux',
-          platform:      'linux',
-          prune:         true
+          out:      './dist/linux',
+          platform: 'linux',
+          prune:    true
         }
       };
 
@@ -34,4 +35,3 @@ Object.keys(targets).forEach((name) => {
     }
   });
 });
-
