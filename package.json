@@ -5,6 +5,7 @@
   "main": "index.js",
   "repository": "hrysd/idobata-electron",
   "scripts": {
+    "build": "./bin/build",
     "idobata": "electron index.js"
   },
   "author": "Hiroshi Yoshida",
