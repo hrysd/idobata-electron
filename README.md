@@ -13,7 +13,11 @@ $ brew cask install idobata-electron
 
 **etc:**
 
-Download via [release](https://github.com/hrysd/idobata-electron/releases) page.
+Download via [release](https://github.com/hrysd/idobata-electron/releases) page or build yourself.
+
+```
+$ npm run build
+```
 
 ## Development
 
