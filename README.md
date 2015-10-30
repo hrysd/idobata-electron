@@ -30,4 +30,4 @@ $ npm run idobata
 
 ## Screenshot
 
-![screenshot](https://cloud.githubusercontent.com/assets/1663465/7982004/0f8044ec-0aee-11e5-89a4-334104419af4.png)
+![screenshot](https://cloud.githubusercontent.com/assets/1663465/10850515/750a32ec-7f69-11e5-9f7f-8291825d23d9.png)
