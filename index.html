@@ -17,9 +17,10 @@
     <webview id="idobata" src="https://idobata.io/" autosize='on' preload='./preload.js'></webview>
     <script>
       var webview  = document.getElementById('idobata');
+      var shell    = require('electron').shell;
 
       webview.addEventListener("new-window", function(e) {
-        require('shell').openExternal(e.url);
+        shell.openExternal(e.url);
       });
     </script>
   </body>
