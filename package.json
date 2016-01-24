@@ -1,7 +1,7 @@
 {
   "name": "idobata-electron",
   "version": "0.3.0",
-  "description": "",
+  "description": "Unofficial Idobata client built on Electron",
   "main": "index.js",
   "repository": "hrysd/idobata-electron",
   "scripts": {
