@@ -4,9 +4,21 @@
       store.find('message', data.message.id).then(function(message) {
         var title = message.get('senderName');
 
-        new Notification(title, {
+        notification = new Notification(title, {
           body: message.get('bodyPlain'),
           icon: message.get('senderIconUrl')
+        });
+
+        notification.addEventListener('click', function() {
+          var app = Ember.Namespace.NAMESPACES.find(function(a) {
+            return a instanceof Ember.Application;
+          });
+
+          var router = app.__container__.lookup('router:main');
+
+          if (!router.isActive('main')) return;
+
+          router.transitionTo('room', message.get('room'));
         });
       });
     }
