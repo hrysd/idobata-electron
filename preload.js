@@ -2,7 +2,8 @@
   var onMessageCreated = function(user, store) {
     return function(data) {
       store.find('message', data.message.id).then(function(message) {
-        var title = message.get('senderName');
+        var room  = message.get('room'),
+            title = message.get('senderName') + ' > ' + room.get('organization.slug') + ' / ' + room.get('name');
 
         notification = new Notification(title, {
           body: message.get('bodyPlain'),
