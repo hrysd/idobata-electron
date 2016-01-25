@@ -1,36 +1,42 @@
 (function(){
-  var onMessageCreated = function(user, store) {
+  var onMessageCreated = function(session, store) {
     return function(data) {
       store.find('message', data.message.id).then(function(message) {
         var room  = message.get('room'),
             title = message.get('senderName') + ' > ' + room.get('organization.slug') + ' / ' + room.get('name');
 
-        notification = new Notification(title, {
-          body: message.get('bodyPlain'),
-          icon: message.get('senderIconUrl')
-        });
+        var byCurrentUser = message.get('senderId') === Number(session.get('user.id')),
+            byHuman       = message.get('senderType') === 'User';
 
-        notification.addEventListener('click', function() {
-          var app = Ember.Namespace.NAMESPACES.find(function(a) {
-            return a instanceof Ember.Application;
+        if (!byCurrentUser && byHuman) {
+          notification = new Notification(title, {
+            body: message.get('bodyPlain'),
+            icon: message.get('senderIconUrl')
           });
 
-          var router = app.__container__.lookup('router:main');
+          notification.addEventListener('click', function() {
+            var app = Ember.Namespace.NAMESPACES.find(function(a) {
+              return a instanceof Ember.Application;
+            });
 
-          if (!router.isActive('main')) return;
+            var router = app.__container__.lookup('router:main');
 
-          router.transitionTo('room', message.get('room'));
-        });
+            if (!router.isActive('main')) return;
+
+            router.transitionTo('room', message.get('room'));
+          });
+        }
       });
     }
   };
 
   window.addEventListener('ready.idobata', function(e) {
     var container = e.detail.container;
-    var pusher = container.lookup('pusher:main');
-    var user   = container.lookup('service:session').get('user.id');
-    var store  = container.lookup('service:store');
 
-    pusher.bind('message:created', onMessageCreated(user, store));
+    var pusher  = container.lookup('pusher:main'),
+        session = container.lookup('service:session'),
+        store   = container.lookup('service:store');
+
+    pusher.bind('message:created', onMessageCreated(session, store));
   });
 })();
