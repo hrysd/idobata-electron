@@ -5,10 +5,12 @@
         var room  = message.get('room'),
             title = message.get('senderName') + ' > ' + room.get('organization.slug') + ' / ' + room.get('name');
 
-        var byCurrentUser = message.get('senderId') === Number(session.get('user.id')),
-            byHuman       = message.get('senderType') === 'User';
+        var isSameId = message.get('senderId') === Number(session.get('user.id')),
+            byHuman  = message.get('senderType') === 'User';
 
-        if (!byCurrentUser && byHuman) {
+        if (isSameId) {
+          if (byHuman) return;
+        } else {
           notification = new Notification(title, {
             body: message.get('bodyPlain'),
             icon: message.get('senderIconUrl')
