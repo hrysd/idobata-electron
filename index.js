@@ -1,10 +1,7 @@
 'use strict'
 
 const app           = require('electron').app,
-      BrowserWindow = require('electron').BrowserWindow,
-      crashReporter = require('electron').crashReporter;
-
-crashReporter.start();
+      BrowserWindow = require('electron').BrowserWindow;
 
 app.on('window-all-closed', function() {
   app.quit();
