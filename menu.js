@@ -1,6 +1,7 @@
-var remote = require('remote');
-var Menu = remote.require('menu');
-var template = [
+const remote = require('remote');
+const Menu   = remote.require('menu');
+
+const template = [
   {
     label: 'idobata-electron',
     submenu: [
@@ -86,12 +87,12 @@ var template = [
       {
         label: 'Reload',
         accelerator: 'Command+R',
-        click: function() { remote.getCurrentWindow().reload(); }
+        click() { remote.getCurrentWindow().reload(); }
       },
       {
         label: 'Toggle DevTools',
         accelerator: 'Alt+Command+I',
-        click: function() { remote.getCurrentWindow().toggleDevTools(); }
+        click() { remote.getCurrentWindow().toggleDevTools(); }
       },
     ]
   },
@@ -123,6 +124,6 @@ var template = [
   }
 ];
 
-menu = Menu.buildFromTemplate(template);
+const menu = Menu.buildFromTemplate(template);
 
 Menu.setApplicationMenu(menu);
