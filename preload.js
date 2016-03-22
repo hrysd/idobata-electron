@@ -1,44 +1,37 @@
-(function(){
-  var onMessageCreated = function(session, store) {
-    return function(data) {
-      store.find('message', data.message.id).then(function(message) {
-        var room  = message.get('room'),
-            title = message.get('senderName') + ' > ' + room.get('organization.slug') + ' / ' + room.get('name');
+(() => {
+  function onMessageCreated(session, store, router) {
+    return (data) => {
+      store.find('message', data.message.id).then((message) => {
+        const isSameId = message.get('senderId') === Number(session.get('user.id'));
+        const byHuman  = message.get('senderType') === 'User';
 
-        var isSameId = message.get('senderId') === Number(session.get('user.id')),
-            byHuman  = message.get('senderType') === 'User';
+        if (isSameId && byHuman) { return; }
 
-        if (isSameId) {
-          if (byHuman) return;
-        } else {
-          notification = new Notification(title, {
-            body: message.get('bodyPlain'),
-            icon: message.get('senderIconUrl')
-          });
+        const room  = message.get('room');
+        const title = `${message.get('senderName')} > ${room.get('organization.slug')} / ${room.get('name')}`;
 
-          notification.addEventListener('click', function() {
-            var app = Ember.Namespace.NAMESPACES.find(function(a) {
-              return a instanceof Ember.Application;
-            });
+        const notification = new Notification(title, {
+          body: message.get('bodyPlain'),
+          icon: message.get('senderIconUrl')
+        });
 
-            var router = app.__container__.lookup('router:main');
+        notification.addEventListener('click', () => {
+          if (!router.isActive('main')) { return };
 
-            if (!router.isActive('main')) return;
-
-            router.transitionTo('room', message.get('room'));
-          });
-        }
+          router.transitionTo('room', room);
+        });
       });
-    }
-  };
+    };
+  }
 
-  window.addEventListener('ready.idobata', function(e) {
-    var container = e.detail.container;
+  window.addEventListener('ready.idobata', (e) => {
+    const container = e.detail.container;
 
-    var pusher  = container.lookup('pusher:main'),
-        session = container.lookup('service:session'),
-        store   = container.lookup('service:store');
+    const pusher  = container.lookup('pusher:main');
+    const session = container.lookup('service:session');
+    const store   = container.lookup('service:store');
+    const router  = container.lookup('router:main');
 
-    pusher.bind('message:created', onMessageCreated(session, store));
+    pusher.bind('message:created', onMessageCreated(session, store, router));
   });
 })();

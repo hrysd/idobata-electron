@@ -16,11 +16,11 @@
   <body>
     <webview id="idobata" src="https://idobata.io/" autosize='on' preload='./preload.js'></webview>
     <script>
-      var webview  = document.getElementById('idobata');
-      var shell    = require('electron').shell;
+      const {shell} = require('electron');
+      const webview = document.getElementById('idobata');
 
-      webview.addEventListener("new-window", function(e) {
-        shell.openExternal(e.url);
+      webview.addEventListener('new-window', ({url}) => {
+        shell.openExternal(url);
       });
     </script>
   </body>
