@@ -15,7 +15,7 @@
 
           tmp.innerHTML = body;
 
-          return tmp.textContent;
+          return tmp.textContent.replace(/ +/g, ' ');
         })(message.get('body'));
 
         const notification = new Notification(title, {
