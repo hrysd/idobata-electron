@@ -10,8 +10,16 @@
         const room  = message.get('room');
         const title = `${message.get('senderName')} > ${room.get('organization.slug')} / ${room.get('name')}`;
 
+        const bodyPlain = ((body) => {
+          let tmp = document.createElement('div');
+
+          tmp.innerHTML = body;
+
+          return tmp.textContent.replace(/ +/g, ' ').replace(/\n/g, '');
+        })(message.get('body'));
+
         const notification = new Notification(title, {
-          body: message.get('bodyPlain'),
+          body: bodyPlain,
           icon: message.get('senderIconUrl')
         });
 
