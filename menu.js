@@ -1,5 +1,5 @@
-const remote = require('remote');
-const Menu   = remote.require('menu');
+const {remote} = require('electron');
+const {Menu}   = remote;
 
 const template = [
   {
