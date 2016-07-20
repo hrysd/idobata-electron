@@ -12,13 +12,18 @@
       }
     </style>
   </head>
-  <script type="text/javascript" src="./menu.js"></script>
   <body>
     <webview id="idobata" src="https://idobata.io/" autosize='on' preload='./preload.js'></webview>
     <script>
-      const {shell} = require('electron');
-      const webview = document.getElementById('idobata');
+      const {shell, remote, ipcRenderer} = require('electron');
+      const {Menu, MenuItem} = remote;
 
+      const menuTemplate = require('./menu-template');
+      const currentMode = ipcRenderer.sendSync('getNotificationMode');
+      const menu = Menu.buildFromTemplate(menuTemplate.getTemplate(currentMode));
+      Menu.setApplicationMenu(menu);
+
+      const webview = document.getElementById('idobata');
       webview.addEventListener('new-window', ({url}) => {
         shell.openExternal(url);
       });
