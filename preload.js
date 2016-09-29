@@ -1,6 +1,10 @@
 (() => {
-  function onMessageCreated(session, store, router) {
-    return (data) => {
+  function onEventReceived(session, store, router) {
+    return (messageEvent) => {
+      const {data, type} = JSON.parse(messageEvent.data);
+
+      if (type !== 'message:created') { return; }
+
       store.find('message', data.message.id).then((message) => {
         const isSameId = message.get('senderId') === Number(session.get('user.id'));
         const byHuman  = message.get('senderType') === 'User';
@@ -35,11 +39,21 @@
   window.addEventListener('ready.idobata', (e) => {
     const container = e.detail.container;
 
-    const pusher  = container.lookup('pusher:main');
+    const stream  = container.lookup('service:stream');
     const session = container.lookup('service:session');
     const store   = container.lookup('service:store');
     const router  = container.lookup('router:main');
 
-    pusher.bind('message:created', onMessageCreated(session, store, router));
+    function sleep(millisec) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve()
+        }, millisec);
+      });
+    }
+
+    sleep(1000).then(() => {
+      stream.on('event', onEventReceived(session, store, router));
+    });
   });
 })();
