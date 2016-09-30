@@ -7,22 +7,19 @@ const packager      = require('electron-packager'),
       defaultOption = {
         dir:           './',
         name:          packageJSON.name,
-        version:       '1.2.3',
+        version:       '1.4.1',
         arch:          'x64',
-        'app-version': packageJSON.version,
         overwrite:     true
       },
       targets = {
         osx: {
           icon:     './icons/idobata.icns',
           out:      './dist/darwin',
-          platform: 'darwin',
-          prune:    true
+          platform: 'darwin'
         },
         linux: {
           out:      './dist/linux',
-          platform: 'linux',
-          prune:    true
+          platform: 'linux'
         }
       };
 
