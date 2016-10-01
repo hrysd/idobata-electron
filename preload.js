@@ -1,3 +1,5 @@
+const {ipcRenderer} = require('electron');
+
 (() => {
   function onEventReceived(session, store, router) {
     return (messageEvent) => {
@@ -22,27 +24,41 @@
           return tmp.textContent.replace(/ +/g, ' ').replace(/\n/g, '');
         })(message.get('body'));
 
-        const notification = new Notification(title, {
-          body: bodyPlain,
-          icon: message.get('senderIconUrl')
-        });
+        const currentMode = ipcRenderer.sendSync('getNotificationMode');
 
-        notification.addEventListener('click', () => {
-          if (!router.isActive('main')) { return };
+        if (isNotify(currentMode, message, session.user)) {
+          const notification = new Notification(title, {
+            body: bodyPlain,
+            icon: message.get('senderIconUrl')
+          });
 
-          router.transitionTo('room', room);
-        });
+          notification.addEventListener('click', () => {
+            if (!router.isActive('main')) { return };
+
+            router.transitionTo('room', room);
+          });
+        }
       });
     };
   }
 
+  function isNotify(mode, message, user) {
+    switch (mode) {
+      case 'all':
+        return true;
+      case 'mention':
+        return message.mentioned(user);
+      case 'never':
+        return false
+    }
+  }
+
   window.addEventListener('ready.idobata', (e) => {
     const container = e.detail.container;
-
-    const stream  = container.lookup('service:stream');
-    const session = container.lookup('service:session');
-    const store   = container.lookup('service:store');
-    const router  = container.lookup('router:main');
+    const stream    = container.lookup('service:stream');
+    const session   = container.lookup('service:session');
+    const store     = container.lookup('service:store');
+    const router    = container.lookup('router:main');
 
     function sleep(millisec) {
       return new Promise((resolve) => {
