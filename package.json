@@ -11,7 +11,7 @@
   "author": "Hiroshi Yoshida",
   "license": "MIT",
   "devDependencies": {
-    "electron-packager": "7.0.4",
-    "electron-prebuilt": "1.2.3"
+    "electron-packager": "8.0.0",
+    "electron-prebuilt": "1.4.1"
   }
 }

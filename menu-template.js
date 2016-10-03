@@ -7,8 +7,7 @@ module.exports.getTemplate = (currentMode) => {
       label: 'idobata-electron',
       submenu: [
         {
-          label: 'About idobata-electron',
-          selector: 'orderFrontStandardAboutPanel:'
+          role: 'about' // only macOS
         },
         {
           type: 'separator'
@@ -34,40 +33,32 @@ module.exports.getTemplate = (currentMode) => {
               checked: isChecked('never'),
               click: onClick('never')
             }
-          ],
-          accelerator: 'Command+,'
+          ]
         },
         {
           type: 'separator'
         },
         {
-          label: 'Services',
+          role: 'services', // only macOS
           submenu: []
         },
         {
           type: 'separator'
         },
         {
-          label: 'Hide idobata-electron',
-          accelerator: 'Command+H',
-          selector: 'hide:'
+          role: 'hide' // only macOS
         },
         {
-          label: 'Hide Others',
-          accelerator: 'Command+Shift+H',
-          selector: 'hideOtherApplications:'
+          role: 'hideothers' // only macOS
         },
         {
-          label: 'Show All',
-          selector: 'unhideAllApplications:'
+          role: 'unhide' // only macOS
         },
         {
           type: 'separator'
         },
         {
-          label: 'Quit',
-          accelerator: 'Command+Q',
-          selector: 'terminate:'
+          role: 'quit'
         },
       ]
     },
@@ -75,37 +66,31 @@ module.exports.getTemplate = (currentMode) => {
       label: 'Edit',
       submenu: [
         {
-          label: 'Undo',
-          accelerator: 'Command+Z',
-          selector: 'undo:'
+          role: 'undo'
         },
         {
-          label: 'Redo',
-          accelerator: 'Shift+Command+Z',
-          selector: 'redo:'
+          role: 'redo'
         },
         {
           type: 'separator'
         },
         {
-          label: 'Cut',
-          accelerator: 'Command+X',
-          selector: 'cut:'
+          role: 'cut'
         },
         {
-          label: 'Copy',
-          accelerator: 'Command+C',
-          selector: 'copy:'
+          role: 'copy'
         },
         {
-          label: 'Paste',
-          accelerator: 'Command+V',
-          selector: 'paste:'
+          role: 'paste'
         },
         {
-          label: 'Select All',
-          accelerator: 'Command+A',
-          selector: 'selectAll:'
+          role: 'pasteandmatchstyle'
+        },
+        {
+          role: 'delete'
+        },
+        {
+          role: 'selectall'
         }
       ]
     },
@@ -115,40 +100,51 @@ module.exports.getTemplate = (currentMode) => {
         {
           label: 'Reload',
           accelerator: 'Command+R',
-          click: function() { remote.getCurrentWindow().reload(); }
+          click() { remote.getCurrentWindow().reload(); }
         },
         {
           label: 'Toggle DevTools',
           accelerator: 'Alt+Command+I',
-          click: function() { remote.getCurrentWindow().toggleDevTools(); }
-        },
-      ]
-    },
-    {
-      label: 'Window',
-      submenu: [
-        {
-          label: 'Minimize',
-          accelerator: 'Command+M',
-          selector: 'performMiniaturize:'
-        },
-        {
-          label: 'Close',
-          accelerator: 'Command+W',
-          selector: 'performClose:'
+          click() { remote.getCurrentWindow().toggleDevTools(); }
         },
         {
           type: 'separator'
         },
         {
-          label: 'Bring All to Front',
-          selector: 'arrangeInFront:'
+          role: 'togglefullscreen'
         }
       ]
     },
     {
-      label: 'Help',
-      submenu: []
+      role: 'window', // only macOS
+      submenu: [
+        {
+          role: 'minimize'
+        },
+        {
+          role: 'zoom' // only macOS
+        },
+        {
+          role: 'close'
+        },
+        {
+          type: 'separator'
+        },
+        {
+          role: 'front' // only macOS
+        }
+      ]
+    },
+    {
+      role: 'help', // only macOS
+      submenu: [
+        {
+          label: 'Learn More',
+          click() {
+            require('electron').shell.openExternal('https://github.com/hrysd/idobata-electron');
+          }
+        }
+      ]
     }
   ];
 }
