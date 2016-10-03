@@ -31,6 +31,10 @@ app.on('ready', () => {
     event.returnValue = config.notificationMode;
   });
 
+  ipcMain.on('totalUnreadMessagesCount:updated', (_, unreadCount) => {
+    app.setBadgeCount(unreadCount);
+  });
+
   function getConfig() {
     let config;
 

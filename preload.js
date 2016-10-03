@@ -68,6 +68,11 @@ const {ipcRenderer} = require('electron');
       });
     }
 
+    // NOTE: この時点ではユーザを取ることができない
+    session.addObserver('user.totalUnreadMessagesCount', (session) => {
+      ipcRenderer.send('totalUnreadMessagesCount:updated', session.get('user.totalUnreadMessagesCount'));
+    });
+
     sleep(1000).then(() => {
       stream.on('event', onEventReceived(session, store, router));
     });
