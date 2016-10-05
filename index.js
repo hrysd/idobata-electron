@@ -1,8 +1,15 @@
 'use strict';
 
 const {app, BrowserWindow, ipcMain} = require('electron');
-const fs = require('fs');
+
+const fs   = require('fs');
 const path = require('path');
+
+const Config = require('electron-config');
+
+const config = new Config({
+  defaults: {notificationMode: 'all'}
+});
 
 app.on('window-all-closed', () => {
   app.quit();
@@ -17,34 +24,15 @@ app.on('ready', () => {
     mainWindow = null;
   });
 
-  const config_path = path.join(app.getPath('userData'), 'config');
-
   ipcMain.on('setNotificationMode', (event, mode) => {
-    const config = getConfig();
-    config.notificationMode = mode;
-
-    fs.writeFileSync(config_path, JSON.stringify(config));
+    config.set('notificationMode', mode);
   });
 
   ipcMain.on('getNotificationMode', (event, _) => {
-    const config = getConfig();
-    event.returnValue = config.notificationMode;
+    event.returnValue = config.get('notificationMode');
   });
 
   ipcMain.on('totalUnreadMessagesCount:updated', (_, unreadCount) => {
     app.setBadgeCount(unreadCount);
   });
-
-  function getConfig() {
-    let config;
-
-    try {
-      const file = fs.readFileSync(config_path);
-      config = JSON.parse(file);
-    } catch(e) {
-      config = {notificationMode: 'never'};
-    }
-
-    return config;
-  }
 });
