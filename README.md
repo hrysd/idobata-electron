@@ -1,6 +1,8 @@
-# idobata-electron
+# idobata-electron ![Platform](https://img.shields.io/badge/platform-macOS-lightgrey.svg)
 
 This is unofficial [Idobata](https://idobata.io) desktop client.
+
+
 
 ## Installation
 
