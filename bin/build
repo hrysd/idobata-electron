@@ -12,6 +12,18 @@ const packager      = require('electron-packager'),
         overwrite:     true
       },
       targets = {
+        win32: {
+          icon:     './icons/idobata.ico',
+          out:      './dist/win32',
+          platform: 'win32',
+          win32metadata: {
+            CompanyName: 'hrysd.org',
+            FileDescription: 'What is this?',
+            OriginalFilename: `${packageJSON.name}.exe`,
+            ProductName: packageJSON.name,
+            InternalName: packageJSON.name
+          }
+        },
         osx: {
           icon:     './icons/idobata.icns',
           out:      './dist/darwin',
