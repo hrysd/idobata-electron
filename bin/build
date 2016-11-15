@@ -7,9 +7,9 @@ const packager      = require('electron-packager'),
       defaultOption = {
         dir:           './',
         name:          packageJSON.name,
-        version:       '1.4.1',
         arch:          'x64',
-        overwrite:     true
+        overwrite:     true,
+        ignore: /dist|.git|bin/
       },
       targets = {
         osx: {
