@@ -12,6 +12,6 @@
   "license": "MIT",
   "devDependencies": {
     "electron-packager": "8.0.0",
-    "electron-prebuilt": "1.4.1"
+    "electron-prebuilt": "1.4.6"
   }
 }
