@@ -9,15 +9,21 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', () => {
-  let mainWindow = new BrowserWindow({width: 800, height: 600});
+  const config_path = path.join(app.getPath('userData'), 'config');
+
+  let mainWindow = new BrowserWindow(getConfig().boundaryPosition);
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
+
+  mainWindow.on('close', () => {
+    const config = getConfig();
+    config.boundaryPosition = mainWindow.getBounds()
+    fs.writeFileSync(config_path, JSON.stringify(config));
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
-
-  const config_path = path.join(app.getPath('userData'), 'config');
 
   ipcMain.on('setNotificationMode', (event, mode) => {
     const config = getConfig();
