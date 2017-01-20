@@ -4,32 +4,70 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 const fs = require('fs');
 const path = require('path');
 
+let mainWindow;
+let quit = false;
+
+function createMainWindow() {
+  const win = new BrowserWindow(getConfig().boundaryPosition);
+
+  win.loadURL(`file://${__dirname}/index.html`);
+
+  win.on('close', (e) => {
+    const config = getConfig();
+    config.boundaryPosition = win.getBounds()
+    setConfig(config);
+    if (!quit) {
+      e.preventDefault();
+      mainWindow.hide();
+    }
+  })
+
+  return win;
+}
+
+function getConfig() {
+  const config_path = path.join(app.getPath('userData'), 'config');
+  let config;
+
+  try {
+    const file = fs.readFileSync(config_path);
+    config = JSON.parse(file);
+  } catch(e) {
+    config = {notificationMode: 'never'};
+  }
+
+  return config;
+}
+
+function setConfig(config) {
+  const config_path = path.join(app.getPath('userData'), 'config');
+  fs.writeFileSync(config_path, JSON.stringify(config));
+}
+
 app.on('window-all-closed', () => {
-  app.quit();
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+app.on('activate', () => {
+  if (!mainWindow) {
+    mainWindow = createMainWindow();
+  }
+  mainWindow.show();
+});
+
+app.on('before-quit', function (e) {
+  quit = true;
 });
 
 app.on('ready', () => {
-  const config_path = path.join(app.getPath('userData'), 'config');
-
-  let mainWindow = new BrowserWindow(getConfig().boundaryPosition);
-
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
-
-  mainWindow.on('close', () => {
-    const config = getConfig();
-    config.boundaryPosition = mainWindow.getBounds()
-    fs.writeFileSync(config_path, JSON.stringify(config));
-  })
-
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+  mainWindow = createMainWindow();
 
   ipcMain.on('setNotificationMode', (event, mode) => {
     const config = getConfig();
     config.notificationMode = mode;
-
-    fs.writeFileSync(config_path, JSON.stringify(config));
+    setConfig(config);
   });
 
   ipcMain.on('getNotificationMode', (event, _) => {
@@ -41,16 +79,11 @@ app.on('ready', () => {
     app.setBadgeCount(unreadCount);
   });
 
-  function getConfig() {
-    let config;
-
-    try {
-      const file = fs.readFileSync(config_path);
-      config = JSON.parse(file);
-    } catch(e) {
-      config = {notificationMode: 'never'};
+  ipcMain.on('showMainWindow', (event) => {
+    if (mainWindow && !mainWindow.isVisible()) {
+      mainWindow.show();
+      event.returnValue = true;
     }
-
-    return config;
-  }
+    event.returnValue = false;
+  });
 });

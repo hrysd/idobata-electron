@@ -34,7 +34,8 @@ const {ipcRenderer} = require('electron');
 
           notification.addEventListener('click', () => {
             if (!router.isActive('main')) { return };
-
+            
+            ipcRenderer.sendSync('showMainWindow');
             router.transitionTo('room', room);
           });
         }
