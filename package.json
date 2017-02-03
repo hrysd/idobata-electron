@@ -6,12 +6,24 @@
   "repository": "hrysd/idobata-electron",
   "scripts": {
     "build": "./bin/build",
-    "idobata": "electron index.js"
+    "idobata": "electron index.js",
+    "pack": "build --dir",
+    "dist": "build"
   },
-  "author": "Hiroshi Yoshida",
+  "author": {
+    "name": "Hiroshi Yoshida",
+    "email": "hrysd22@gmail.com"
+  },
   "license": "MIT",
+  "build": {
+    "appId": "com.electron.idobata-electron",
+    "linux": {
+      "icon": "../icons"
+    }
+  },
   "devDependencies": {
-    "electron-packager": "8.5.0",
-    "electron": "1.4.14"
+    "electron": "1.4.14",
+    "electron-builder": "^12.3.0",
+    "electron-packager": "8.5.0"
   }
 }

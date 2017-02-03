@@ -8,7 +8,7 @@ let mainWindow;
 let quit = false;
 
 function createMainWindow() {
-  const icon = path.join(__dirname, 'icons/idobata.png');
+  const icon = path.join(__dirname, 'icons/256x256.png');
   const win = new BrowserWindow(Object.assign({icon}, getConfig().boundaryPosition));
 
   win.loadURL(`file://${__dirname}/index.html`);
